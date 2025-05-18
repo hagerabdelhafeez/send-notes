@@ -36,7 +36,7 @@ new class extends Component {
                     <x-card wire:key='{{ $note->id }}'>
                         <div class="flex justify-between">
                             <div>
-                                <a href="#"
+                                <a href="{{ route('notes.edit', $note) }}"  wire:navigate
                                     class="text-md font-bold hover:underline hover:text-blue-500">{{ $note->title }}</a>
                                 <p class="mt-2 text-xs">{{ Str::limit($note->body, 50, '...') }}</p>
                             </div>
@@ -48,7 +48,7 @@ new class extends Component {
                             <p class="text-xs">Recipient: <span class="font-semibold">{{ $note->recipient }}</span>
                             </p>
                             <div>
-                                <x-mini-button rounded info xs icon="eye" />
+                                <x-mini-button rounded info xs icon="eye"/>
                                 <x-mini-button rounded negative xs icon="trash" wire:click="delete('{{ $note->id }}')" />
                             </div>
                         </div>

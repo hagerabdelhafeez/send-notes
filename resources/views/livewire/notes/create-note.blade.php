@@ -15,7 +15,13 @@ new class extends Component {
             'recipient' => 'required|email',
             'send_date' => 'required|date',
         ]);
-        Auth::user()->notes()->create($validated);
+        Auth::user()->notes()->create([
+            'title' => $this->title,
+            'body' => $this->body,
+            'recipient' => $this->recipient,
+            'send_date' => $this->send_date,
+           'is_published' => true,
+        ]);
         redirect(route('notes.index'));
     }
 
@@ -28,7 +34,7 @@ new class extends Component {
         <x-input type="email" icon="user" wire:model='recipient' label='Recipient' placeholder="Yourfriend@email.com"/>
         <x-input icon="calendar" wire:model='send_date' type="date" label='Send Date' />
         <div class="pt-4">
-        <x-button icon="clipboard" type="submit" info label="Schedule Note" spinner />
+        <x-button type="submit" icon="clipboard" type="submit" info label="Schedule Note" spinner />
     </div>
     <x-errors />
     </form>

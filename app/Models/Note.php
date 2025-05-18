@@ -10,6 +10,13 @@ class Note extends Model
     use HasUuids;
     protected $guarded = ['id'];
 
+    protected function casts()
+    {
+        return [
+            'is_published' => 'boolean',
+        ];
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
