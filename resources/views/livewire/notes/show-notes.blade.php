@@ -4,7 +4,8 @@ use Livewire\Volt\Component;
 use App\Models\Note;
 
 new class extends Component {
-    public function delete($id) {
+    public function delete($id)
+    {
         $note = Note::where('id', $id)->first();
         $this->authorize('delete', $note);
         if ($note) {
@@ -50,8 +51,12 @@ new class extends Component {
                     <x-card wire:key='{{ $note->id }}'>
                         <div class="flex justify-between">
                             <div>
-                                <a href="{{ route('notes.edit', $note) }}"  wire:navigate
-                                    class="text-md font-bold hover:underline hover:text-blue-500">{{ $note->title }}</a>
+                                @can('update', $note)
+                                    <a href="{{ route('notes.edit', $note) }}" wire:navigate
+                                        class="text-md font-bold hover:underline hover:text-blue-500">{{ $note->title }}</a>
+                                @else
+                                    <p class="text-md font-bold text-gray-500">{{ $note->title }}</p>
+                                @endcan
                                 <p class="mt-2 text-xs">{{ Str::limit($note->body, 50, '...') }}</p>
                             </div>
                             <div class="text-xs text-gray-500">
@@ -62,8 +67,9 @@ new class extends Component {
                             <p class="text-xs">Recipient: <span class="font-semibold">{{ $note->recipient }}</span>
                             </p>
                             <div>
-                                <x-mini-button rounded info xs icon="eye"/>
-                                <x-mini-button rounded negative xs icon="trash" wire:click="delete('{{ $note->id }}')" />
+                                <x-mini-button rounded info xs icon="eye" href="{{ route('notes.show', $note) }}" />
+                                <x-mini-button rounded negative xs icon="trash"
+                                    wire:click="delete('{{ $note->id }}')" />
                             </div>
                         </div>
                     </x-card>
